@@ -1,0 +1,122 @@
+const searchBtn = document.querySelector(".search_btn");
+const searchEl = document.querySelector(".search");
+const input = document.querySelector(".search_input");
+const background = document.querySelector(".search_section");
+const songList = document.querySelector(".song_list");
+const songSection = document.querySelector(".song");
+
+// Reset input
+input.value = "";
+
+// Obriši song list elemente
+const removeItems = function () {
+  const songs = document.querySelectorAll(".song_item");
+  songs.forEach((song) => {
+    songList.removeChild(song);
+  });
+};
+
+// Zatvori input ako kliknemo na background a input je prazan
+background.addEventListener("click", function (e) {
+  if (
+    e.target.classList.contains("search_section") &&
+    input.value.length === 0
+  ) {
+    searchEl.classList.remove("search--active");
+  }
+});
+
+// Event listener na escape i enter
+window.addEventListener("keydown", function (e) {
+  // Zatvori input kad pritisnemo escape a input je prazan
+  if (e.key === "Escape" && input.value.trim().length === 0) {
+    searchEl.classList.remove("search--active");
+  }
+  // Clearaj input i song list
+  if (e.key === "Escape") {
+    input.value = "";
+    removeItems();
+  }
+  // Dohvati podatke kad pritisnemo input nije prazan
+  if (e.key === "Enter" && input.value.trim().length !== 0) {
+    getData();
+  }
+});
+
+searchBtn.addEventListener("click", function () {
+  if (input.value.trim().length === 0) {
+    // Toggle active ako je input prazan
+    searchEl.classList.toggle("search--active");
+
+    // Fokus na input
+    const focusInput = function () {
+      input.focus();
+    };
+    setTimeout(focusInput, 1200);
+  } //else {
+  // Dohvati podatke
+  // getData();
+  // }
+});
+
+const getData = function () {
+  // Obriši pjesme
+  removeItems();
+  // HTTP request
+  const request = new XMLHttpRequest();
+  request.open(
+    "GET",
+    `https://itunes.apple.com/search?term=${input.value}&entity=song`,
+    true
+  );
+  request.onload = function (result) {
+    const res = JSON.parse(result.currentTarget.response);
+
+    // Ako pretraga ne daje rezultate
+    if (res.resultCount === 0) {
+      showErrorMessage(input.value);
+    } else {
+      removeErrorMessage();
+      // Pozvati showItemsOnScreen
+      res.results.forEach(function (result, i) {
+        // Prikaži samo 5 elemenata
+        if (i <= 4) {
+          showItemsOnScreen(result);
+        } else return;
+      });
+    }
+  };
+
+  // Šaljemo request
+  request.send();
+};
+
+input.addEventListener("input", function () {
+  if (input.value.trim().length !== 0) {
+    getData();
+  }
+});
+
+const showItemsOnScreen = function (data) {
+  const item = document.createElement("li");
+  item.classList.add("song_item");
+  item.innerHTML = `<span class="bold">${data.trackName}</span> - <span >${data.artistName}</span>`;
+  songList.appendChild(item);
+};
+
+function showErrorMessage(input) {
+  const messageEl = document.querySelector(".message");
+  if (!messageEl) {
+    const message = document.createElement("p");
+    message.classList.add("message");
+    message.innerHTML = `Nema rezultata za <span class="message_input">"${input}"</span>`;
+    songSection.appendChild(message);
+  }
+}
+
+function removeErrorMessage() {
+  const message = document.querySelector(".message");
+  if (message) {
+    message.remove();
+  }
+}

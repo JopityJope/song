@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Share+Tech+Mono&family=VT323&display=swap");
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  /*10px/16px = 0.625*/
+}
+
+body {
+  box-sizing: border-box;
+  height: 100vh;
+  position: relative;
+}
+
+body {
+  font-family: "Share Tech Mono", monospace;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 4rem;
+  color: #fff;
+  color: var(--primarna-boja-0);
+}
+
+::selection {
+  background-color: #f57070;
+  color: #fff;
+}
+
+.search_section {
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+
+  flex-direction: column;
+  background-color: #f5cfcf;
+  padding: 0 6rem 8rem 6rem;
+}
+
+.search {
+  display: flex;
+  transform: translateX(-6rem);
+  margin-top: 15rem;
+}
+
+.search--active .search_input {
+  width: 66rem;
+  padding-right: 12rem;
+}
+
+.search_input {
+  background-color: #f57070;
+  border: none;
+  border-radius: 3rem;
+  font-size: inherit;
+  color: #fff;
+  padding: 0 5rem;
+  height: 12rem;
+  width: 12rem;
+  transform: translateX(12rem) scale(1);
+  z-index: 5;
+  transition: all 1s cubic-bezier(0.86, 0, 0.07, 1);
+  box-shadow: 0 2rem 10rem #f57070ab, 0 1rem 3rem #f57070ab;
+  font-family: inherit;
+}
+
+.search_input::selection {
+  background-color: #fff;
+  color: #f57070;
+}
+
+.search_input:focus {
+  outline: none;
+}
+
+.search_btn {
+  background-color: #f57070;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12rem;
+  width: 12rem;
+  border-radius: 3rem;
+  z-index: 10;
+  transition: all 0.3s;
+}
+
+.search_btn:focus {
+  outline: none;
+}
+
+.search_icon {
+  cursor: pointer;
+  height: 4rem;
+  width: 4rem;
+}
+
+.song {
+  margin-top: 8rem;
+  text-align: center;
+}
+
+.song_list {
+  list-style: none;
+}
+.song_item {
+  color: #f12f2f;
+  font-size: 3rem;
+}
+.song_item:not(:last-of-type) {
+  margin-bottom: 2rem;
+}
+
+.bold {
+  font-weight: bolder;
+  font-size: 3.1rem;
+}
+
+.message {
+  color: white;
+  font-size: 3rem;
+}
+
+.message_input {
+  font-weight: bolder;
+}

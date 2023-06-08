@@ -90,6 +90,16 @@ body {
   border-radius: 3rem;
   z-index: 10;
   transition: all 0.3s;
+  visibility: visible;
+}
+
+.search_btn--remove {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.search_btn--remove .search_icon {
+  cursor: auto;
 }
 
 .search_btn:focus {
@@ -98,8 +108,10 @@ body {
 
 .search_icon {
   cursor: pointer;
-  height: 4rem;
-  width: 4rem;
+  height: 5rem;
+  width: 5rem;
+  fill: #fff;
+  transition: all 0.3s;
 }
 
 .song {

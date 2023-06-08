@@ -6,6 +6,7 @@ const songList = document.querySelector(".song_list");
 const songSection = document.querySelector(".song");
 const loader = document.querySelector(".loader");
 const message = document.querySelector(".message");
+const searchIcon = document.querySelector(".search_icon");
 
 // Reset input
 input.value = "";
@@ -16,20 +17,27 @@ background.addEventListener("click", function (e) {
     e.target.classList.contains("search_section") &&
     input.value.length === 0
   ) {
+    searchIcon.innerHTML = `<use xlink:href="img/sprite.svg#icon-search"></use>`;
     searchEl.classList.remove("search--active");
+    searchBtn.classList.remove("search_btn--remove");
   }
 });
 
 // Event listener na escape
 window.addEventListener("keydown", function (e) {
   // Zatvori input kad pritisnemo escape a input je prazan
+
   if (e.key === "Escape" && input.value.trim().length === 0) {
     searchEl.classList.remove("search--active");
+    searchBtn.classList.remove("search_btn--remove");
+    searchIcon.innerHTML = `<use xlink:href="img/sprite.svg#icon-search"></use>`;
   }
   // Clearaj input i song list
-  if (e.key === "Escape") {
+  else if (e.key === "Escape") {
     input.value = "";
     removeItems();
+    clearMessage();
+    searchBtn.classList.add("search_btn--remove");
   }
   // Ignore
   // Dohvati podatke kad pritisnemo input nije prazan
@@ -40,14 +48,20 @@ window.addEventListener("keydown", function (e) {
 
 searchBtn.addEventListener("click", function () {
   if (input.value.trim().length === 0) {
-    // Toggle active ako je input prazan
+    // Toggle active search ako je input prazan
     searchEl.classList.toggle("search--active");
-
+    // Remove button
+    searchBtn.classList.add("search_btn--remove");
     // Fokus na input
     const focusInput = function () {
       input.focus();
     };
     setTimeout(focusInput, 1200);
+  } else if (input.value.trim().length !== 0) {
+    input.value = "";
+    removeItems();
+    clearMessage();
+    searchBtn.classList.add("search_btn--remove");
   }
 
   // Ignore
@@ -68,8 +82,11 @@ input.addEventListener("input", function () {
     // Sakrij loader ako je input prazan
     loader.classList.remove("loader--active");
     clearMessage();
+    searchBtn.classList.add("search_btn--remove");
   } else if (input.value.trim().length !== 0) {
     getData();
+    searchIcon.innerHTML = `<use xlink:href="img/sprite.svg#icon-close"></use>`;
+    searchBtn.classList.remove("search_btn--remove");
   }
 });
 

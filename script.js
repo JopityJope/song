@@ -61,13 +61,13 @@ input.addEventListener("input", function () {
   // Prikaži loader
   loader.classList.add("loader--active");
   // Clear message
-  message.innerHTML = "";
+  clearMessage();
   // Ukloni song items
   removeItems();
   if (input.value.trim().length === 0) {
     // Sakrij loader ako je input prazan
     loader.classList.remove("loader--active");
-    message.innerHTML = "";
+    clearMessage();
   } else if (input.value.trim().length !== 0) {
     getData();
   }
@@ -79,7 +79,7 @@ const getData = async function () {
       `https://itunes.apple.com/search?term=${input.value}&entity=song`
     );
     const data = await res.json();
-
+    console.log(data);
     // Ako pretraga ne daje rezultate
     if (data.resultCount === 0) {
       loader.classList.remove("loader--active");
@@ -101,6 +101,39 @@ const getData = async function () {
     showErrorMessage();
   }
 };
+
+/* function getData() {
+  // Obriši pjesme
+  removeItems();
+  // HTTP request
+  const request = new XMLHttpRequest();
+  request.open(
+    "GET",
+    `https://itunes.apple.com/search?term=${input.value}&entity=song`,
+    true
+  );
+  request.onload = function (result) {
+    const res = JSON.parse(result.currentTarget.response);
+
+    // Ako pretraga ne daje rezultate
+    if (res.resultCount === 0) {
+      loader.classList.remove("loader--active");
+      showNoResultsMessage(input.value);
+    } else {
+      clearMessage();
+      loader.classList.remove("loader--active");
+      // Pozvati showItemsOnScreen
+      res.results.forEach(function (result, i) {
+        // Prikaži samo 5 elemenata
+        if (i <= 4) {
+          showItemsOnScreen(result);
+        } else return;
+      });
+    }
+  };
+  // Šaljemo request
+  request.send();
+} */
 
 // Prikaži elemente
 function showItemsOnScreen(data) {

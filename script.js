@@ -4,17 +4,11 @@ const input = document.querySelector(".search_input");
 const background = document.querySelector(".search_section");
 const songList = document.querySelector(".song_list");
 const songSection = document.querySelector(".song");
+const loader = document.querySelector(".loader");
+const message = document.querySelector(".message");
 
 // Reset input
 input.value = "";
-
-// Obriši song list elemente
-const removeItems = function () {
-  const songs = document.querySelectorAll(".song_item");
-  songs.forEach((song) => {
-    songList.removeChild(song);
-  });
-};
 
 // Zatvori input ako kliknemo na background a input je prazan
 background.addEventListener("click", function (e) {
@@ -26,7 +20,7 @@ background.addEventListener("click", function (e) {
   }
 });
 
-// Event listener na escape i enter
+// Event listener na escape
 window.addEventListener("keydown", function (e) {
   // Zatvori input kad pritisnemo escape a input je prazan
   if (e.key === "Escape" && input.value.trim().length === 0) {
@@ -37,10 +31,11 @@ window.addEventListener("keydown", function (e) {
     input.value = "";
     removeItems();
   }
+  // Ignore
   // Dohvati podatke kad pritisnemo input nije prazan
-  if (e.key === "Enter" && input.value.trim().length !== 0) {
-    getData();
-  }
+  // if (e.key === "Enter" && input.value.trim().length !== 0) {
+  //   getData();
+  // }
 });
 
 searchBtn.addEventListener("click", function () {
@@ -53,70 +48,84 @@ searchBtn.addEventListener("click", function () {
       input.focus();
     };
     setTimeout(focusInput, 1200);
-  } //else {
+  }
+
+  // Ignore
+  //else {
   // Dohvati podatke
   // getData();
   // }
 });
 
-const getData = function () {
-  // Obriši pjesme
+input.addEventListener("input", function () {
+  // Prikaži loader
+  loader.classList.add("loader--active");
+  // Clear message
+  message.innerHTML = "";
+  // Ukloni song items
   removeItems();
-  // HTTP request
-  const request = new XMLHttpRequest();
-  request.open(
-    "GET",
-    `https://itunes.apple.com/search?term=${input.value}&entity=song`,
-    true
-  );
-  request.onload = function (result) {
-    const res = JSON.parse(result.currentTarget.response);
+  if (input.value.trim().length === 0) {
+    // Sakrij loader ako je input prazan
+    loader.classList.remove("loader--active");
+    message.innerHTML = "";
+  } else if (input.value.trim().length !== 0) {
+    getData();
+  }
+});
+
+const getData = async function () {
+  try {
+    const res = await fetch(
+      `https://itunes.apple.com/search?term=${input.value}&entity=song`
+    );
+    const data = await res.json();
 
     // Ako pretraga ne daje rezultate
-    if (res.resultCount === 0) {
-      showErrorMessage(input.value);
+    if (data.resultCount === 0) {
+      loader.classList.remove("loader--active");
+      showNoResultsMessage(input.value);
     } else {
-      removeErrorMessage();
+      clearMessage();
+      loader.classList.remove("loader--active");
       // Pozvati showItemsOnScreen
-      res.results.forEach(function (result, i) {
+      data.results.forEach(function (result, i) {
         // Prikaži samo 5 elemenata
         if (i <= 4) {
           showItemsOnScreen(result);
         } else return;
       });
     }
-  };
-
-  // Šaljemo request
-  request.send();
+  } catch {
+    loader.classList.remove("loader--active");
+    removeItems();
+    showErrorMessage();
+  }
 };
 
-input.addEventListener("input", function () {
-  if (input.value.trim().length !== 0) {
-    getData();
-  }
-});
-
-const showItemsOnScreen = function (data) {
+// Prikaži elemente
+function showItemsOnScreen(data) {
   const item = document.createElement("li");
   item.classList.add("song_item");
   item.innerHTML = `<span class="bold">${data.trackName}</span> - <span >${data.artistName}</span>`;
   songList.appendChild(item);
-};
-
-function showErrorMessage(input) {
-  const messageEl = document.querySelector(".message");
-  if (!messageEl) {
-    const message = document.createElement("p");
-    message.classList.add("message");
-    message.innerHTML = `Nema rezultata za <span class="message_input">"${input}"</span>`;
-    songSection.appendChild(message);
-  }
 }
 
-function removeErrorMessage() {
-  const message = document.querySelector(".message");
-  if (message) {
-    message.remove();
-  }
+// Obriši song iteme elemente
+function removeItems() {
+  const songs = document.querySelectorAll(".song_item");
+  songs.forEach((song) => {
+    songList.removeChild(song);
+  });
+}
+
+function showNoResultsMessage(input) {
+  message.innerHTML = `Nema rezultata za <span class="message_input">"${input}"</span>`;
+}
+
+function showErrorMessage() {
+  message.innerHTML = "Nešto je pošlo po krivu. Pokušaj ponovno.";
+}
+
+function clearMessage() {
+  message.innerHTML = "";
 }

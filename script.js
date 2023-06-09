@@ -71,13 +71,14 @@ searchBtn.addEventListener("click", function () {
   // }
 });
 
-input.addEventListener("input", function () {
+input.addEventListener("keyup", function () {
+  // Ukloni song items
+  removeItems();
   // Prikaži loader
   loader.classList.add("loader--active");
   // Clear message
   clearMessage();
-  // Ukloni song items
-  removeItems();
+
   if (input.value.trim().length === 0) {
     // Sakrij loader ako je input prazan
     loader.classList.remove("loader--active");
@@ -102,7 +103,9 @@ const getData = async function () {
       loader.classList.remove("loader--active");
       showNoResultsMessage(input.value);
     } else {
+      // Clearaj error message
       clearMessage();
+
       loader.classList.remove("loader--active");
       // Pozvati showItemsOnScreen
       data.results.forEach(function (result, i) {

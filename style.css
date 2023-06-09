@@ -75,6 +75,14 @@ body {
   color: #f57070;
 }
 
+.search_input::placeholder {
+  color: #ffffff95;
+}
+
+.search_input::-webkit-input-placeholder {
+  color: #ffffff95;
+}
+
 .search_input:focus {
   outline: none;
 }
@@ -149,4 +157,97 @@ body {
 }
 .loader--active {
   display: block;
+}
+
+@media only screen and (max-width: 75em) {
+  html {
+    font-size: 62.5%;
+  }
+}
+
+@media only screen and (max-width: 56.25em) {
+  html {
+    font-size: 56.5%;
+  }
+
+  .search_section {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+
+    flex-direction: column;
+    background-color: #f5cfcf;
+  }
+
+  .search {
+    margin-top: 0;
+    width: 100vw;
+    position: absolute;
+    top: 5rem;
+  }
+
+  .search--active .search_input {
+    width: 100%;
+  }
+  .search_input {
+    font-size: 3rem;
+    padding: 0 3rem;
+    height: 10rem;
+    width: 10rem;
+    transform: translateX(10rem);
+  }
+
+  .search_btn {
+    height: 10rem;
+    width: 10rem;
+  }
+
+  .search_icon {
+    height: 4rem;
+    width: 4rem;
+  }
+
+  .song {
+    margin: 23rem 4rem 4rem 4rem;
+  }
+  .song_item {
+    font-size: 2.8rem;
+  }
+
+  .bold {
+    font-size: 2.8rem;
+  }
+  .message {
+    font-size: 2.8rem;
+  }
+}
+
+@media only screen and (max-width: 37.5em) {
+  html {
+    font-size: 50%;
+  }
+
+  .search_input {
+    font-size: 2.5rem;
+  }
+
+  .search_icon {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+
+  .song {
+    margin: 21rem 4rem 4rem 4rem;
+  }
+  .song_item {
+    font-size: 2.5rem;
+  }
+
+  .bold {
+    font-size: 2.5rem;
+  }
+  .message {
+    font-size: 2.5rem;
+  }
 }

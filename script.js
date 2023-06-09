@@ -108,12 +108,18 @@ const getData = async function () {
 
       loader.classList.remove("loader--active");
       // Pozvati showItemsOnScreen
-      data.results.forEach(function (result, i) {
+      data.results.forEach(function (result) {
+        // Prikaži samo 5 elemenata
+
+        showItemsOnScreen(result);
+      });
+
+      /* data.results.forEach(function (result, i) {
         // Prikaži samo 5 elemenata
         if (i <= 4) {
           showItemsOnScreen(result);
         } else return;
-      });
+      }); */
     }
   } catch {
     loader.classList.remove("loader--active");

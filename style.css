@@ -17,6 +17,7 @@ body {
   box-sizing: border-box;
   height: 100vh;
   position: relative;
+  scrollbar-color: #fff #f57070;
 }
 
 body {
@@ -31,6 +32,22 @@ body {
 ::selection {
   background-color: #f57070;
   color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 1.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5cfcf;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f57070;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f12f2f;
 }
 
 .search_section {

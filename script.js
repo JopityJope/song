@@ -42,7 +42,7 @@ window.addEventListener("keydown", function (e) {
   // Ignore
   // Dohvati podatke kad pritisnemo input nije prazan
   // if (e.key === "Enter" && input.value.trim().length !== 0) {
-  //   getData();
+  //   loadSong();
   // }
 });
 
@@ -67,7 +67,7 @@ searchBtn.addEventListener("click", function () {
   // Ignore
   //else {
   // Dohvati podatke
-  // getData();
+  // loadSong();
   // }
 });
 
@@ -85,13 +85,13 @@ input.addEventListener("keyup", function () {
     clearMessage();
     searchBtn.classList.add("search_btn--remove");
   } else if (input.value.trim().length !== 0) {
-    getData();
+    loadSong();
     searchIcon.innerHTML = `<use xlink:href="img/sprite.svg#icon-close"></use>`;
     searchBtn.classList.remove("search_btn--remove");
   }
 });
 
-const getData = async function () {
+const loadSong = async function () {
   try {
     const res = await fetch(
       `https://itunes.apple.com/search?term=${input.value}&entity=song`
@@ -108,18 +108,18 @@ const getData = async function () {
 
       loader.classList.remove("loader--active");
       // Pozvati showItemsOnScreen
-      data.results.forEach(function (result) {
+      /*  data.results.forEach(function (result) {
         // Prikaži samo 5 elemenata
 
         showItemsOnScreen(result);
-      });
+      }); */
 
-      /* data.results.forEach(function (result, i) {
+      data.results.forEach(function (result, i) {
         // Prikaži samo 5 elemenata
         if (i <= 4) {
           showItemsOnScreen(result);
         } else return;
-      }); */
+      });
     }
   } catch {
     loader.classList.remove("loader--active");
@@ -128,7 +128,7 @@ const getData = async function () {
   }
 };
 
-/* function getData() {
+/* function loadSong() {
   // Obriši pjesme
   removeItems();
   // HTTP request

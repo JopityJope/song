@@ -140,7 +140,7 @@ body {
 }
 
 .song {
-  margin-top: 8rem;
+  margin: 1rem;
   text-align: center;
 }
 
@@ -176,10 +176,16 @@ body {
 }
 
 .loader {
-  display: none;
+  opacity: 0;
 }
+
+.loader img {
+  height: 10rem;
+  width: 10rem;
+}
+
 .loader--active {
-  display: block;
+  opacity: 1;
 }
 
 @media only screen and (max-width: 75em) {
@@ -232,7 +238,7 @@ body {
   }
 
   .song {
-    margin: 23rem 4rem 4rem 4rem;
+    margin: 18rem 4rem 4rem 4rem;
   }
   .song_item {
     font-size: 2.8rem;
@@ -261,7 +267,7 @@ body {
   }
 
   .song {
-    margin: 21rem 4rem 4rem 4rem;
+    margin: 18rem 4rem 4rem 4rem;
   }
   .song_item {
     font-size: 2.5rem;

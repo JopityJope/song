@@ -82,6 +82,7 @@ async function loadSongs(searchTerm) {
     const data = await res.json();
 
     if (data.resultCount === 0) {
+      loader.classList.remove("loader--active");
       songList.innerHTML = "";
       showNoResultsMessage(input.value);
     } else {
@@ -98,12 +99,12 @@ function findSongs() {
   let searchTerm = input.value.trim();
   if (searchTerm.length > 0) {
     songList.classList.remove("song_list--hide");
-    loader.classList.remove("loader--active");
     loadSongs(searchTerm);
   } else songList.classList.add("song_list--hide");
 }
 
 function displaySongList(songs) {
+  loader.classList.remove("loader--active");
   songList.innerHTML = "";
   message.innerHTML = "";
   songs.forEach((song, i) => {

@@ -146,7 +146,13 @@ body {
 
 .song_list {
   list-style: none;
+  display: inline-block;
 }
+
+.song_list--hide {
+  display: none;
+}
+
 .song_item {
   color: #f12f2f;
   font-size: 3rem;
